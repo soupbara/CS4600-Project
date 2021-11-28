@@ -7,6 +7,7 @@
 *******************************/
 public class ClientRunner{
 	public static void main(String args[]){
-		System.out.println("hello world");
+		ChatClient c = new ChatClient();
+		c.launch(c.class);
 	}//end main
 }//end ClientRunner

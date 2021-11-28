@@ -42,8 +42,9 @@ public class ChatClient extends Application{
         primaryStage.setScene(scene); //places scene onto the primary stage
         primaryStage.show(); //display
     }
-
+	/*
     public static void main(String[] args) {
         launch(args);
     }
+	*/
 }
