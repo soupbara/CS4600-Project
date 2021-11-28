@@ -36,10 +36,10 @@ public class ChatClient extends Application{
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Chatroom");
 
-        VBox vbox = new VBox(10);
-        Scene scene = new Scene(vbox, 1280, 720);
+        VBox vbox = new VBox(10); //create VBox
+        Scene scene = new Scene(vbox, 1280, 720); //create new scene
 
-        primaryStage.setScene(scene);
+        primaryStage.setScene(scene); //places scene onto the primary stage
         primaryStage.show(); //display
     }
 
