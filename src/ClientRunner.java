@@ -8,6 +8,6 @@
 public class ClientRunner{
 	public static void main(String args[]){
 		ChatClient c = new ChatClient();
-		c.launch(c.launchWindow);
+		c.launchWindow;
 	}//end main
 }//end ClientRunner
