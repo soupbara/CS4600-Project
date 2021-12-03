@@ -25,6 +25,8 @@ import java.io.*;
 
 public class ChatClient extends Application{
     String key = "helloworld";
+    ByteArrayInputStream byteInput;
+    ByteArrayOutputStream byteOutput;
 
     /**
      * creates a byte stream over the socket connection to receive data
@@ -53,6 +55,7 @@ public class ChatClient extends Application{
         BorderPane chatRoom = new BorderPane();
         Scene chatRoomScene= new Scene(chatRoom,800, 600);
 
+        /**INPUT KEY PAGE*/
         Label inputKeyLabel = new Label("Input Key");
         TextField inputKey = new TextField();
         inputKey.setOnKeyReleased(e -> {
@@ -60,6 +63,27 @@ public class ChatClient extends Application{
                 primaryStage.setScene(chatRoomScene);
         });
         VBox inputKeyContainer = new VBox(inputKeyLabel, inputKey);
+
+        /**CHAT PAGE*/
+        VBox messages = new VBox(); //displays sent messages
+        chatRoom.setCenter(messages);
+
+        TextField sendMessage = new TextField("Send a message"); //where you type
+        sendMessage.setOnKeyReleased(e -> {
+            if (!sendMessage.getText().isEmpty() && (e.getCode() == KeyCode.ENTER)) {
+                //send message
+                System.out.println(sendMessage.getText());
+            }
+        });
+        Button sendButton = new Button("Send"); //click to send message
+        sendButton.setOnAction(e -> {
+            if (!sendMessage.getText().isEmpty()) {
+                //send message
+                System.out.println(sendMessage.getText());
+            }
+        });
+        HBox bottomBar = new HBox(sendMessage, sendButton);
+        chatRoom.setBottom(bottomBar);
 
         keyInput.setCenter(inputKeyContainer);
         inputKeyContainer.setAlignment(Pos.CENTER);
