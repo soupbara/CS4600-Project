@@ -36,10 +36,17 @@ public class ChatClient extends Application{
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Chatroom");
 
-        VBox vbox = new VBox(10); //create VBox
-        Scene scene = new Scene(vbox, 1280, 720); //create new scene
+        BorderPane keyInput = new BorderPane(); //create VBox
+        Scene keyInputScene = new Scene(keyInput, 1280, 720); //create new scene
 
-        primaryStage.setScene(scene); //places scene onto the primary stage
+        Label inputKeyLabel = new Label("Input Key");
+        TextField inputKey = new TextField();
+        VBox inputKeyContainer = new VBox(inputKeyLabel, inputKey);
+
+        keyInput.setCenter(inputKeyContainer);
+        inputKeyContainer.setAlignment(Pos.CENTER);
+
+        primaryStage.setScene(keyInputScene); //places scene onto the primary stage
         primaryStage.show(); //display
     }
 	
