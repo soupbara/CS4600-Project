@@ -83,49 +83,9 @@ public class ChatClient extends Application{
         }
     }
 
-    /**
-     * creates a byte stream over the socket connection to receive data
-     * @param socket
-     */
-    public void receiveData(Socket socket) {
-        try {
-            InputStream input = socket.getInputStream();
-            reader = new BufferedReader(new InputStreamReader(input));
-        } catch (IOException e) {
-            System.out.println("Error getting input stream: " + e.getMessage());
-            e.printStackTrace();
-        }
+    //place where receiveData was
 
-        while (true) {
-            try {
-                getMessage(reader.readLine());
-            } catch (IOException e) {
-                System.out.println("Error reading from server: " + e.getMessage());
-                e.printStackTrace();
-                break;
-            }
-        }
-    }
-
-    /**
-     * creates a byte stream over the socket connection to send data
-     * @param socket
-     */
-    public void sendData(Socket socket) {
-        try {
-            OutputStream output = socket.getOutputStream();
-            writer = new PrintWriter(output, true);
-        } catch (IOException e) {
-            System.out.println("Error getting output stream: " + e.getMessage());
-            e.printStackTrace();
-        }
-
-        try {
-            socket.close();
-        } catch (IOException e) {
-            System.out.println("Error writing to server: " + e.getMessage());
-        }
-    }
+    //place where sendData was
 
     /**
      * helper method to display received message on GUI
