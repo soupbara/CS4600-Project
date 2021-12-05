@@ -33,8 +33,8 @@ public class ChatClient extends Application{
     private String hostname;
     private int port;
 
-    private BufferedReader reader;
-    private PrintWriter writer;
+//    private BufferedReader reader;
+//    private PrintWriter writer;
 
     private String sentMessage;
     private String receivedMessage;
@@ -78,6 +78,10 @@ public class ChatClient extends Application{
 
             launch(); //launch GUI
 
+            while (true) { // display received messages
+                messages.getChildren().add(new Label("Anon: " + serverReader.getReceivedMessage()));
+            }
+
         } catch (UnknownHostException ex) {
             System.out.println("Server not found: " + ex.getMessage());
         } catch (IOException e) {
@@ -88,14 +92,6 @@ public class ChatClient extends Application{
     //place where receiveData was
 
     //place where sendData was
-
-    /**
-     * helper method to display received message on GUI
-     * @param text
-     */
-    public void getMessage(String text) {
-        messages.getChildren().add(new Label("Anon: " + text));
-    }
 
     /**
      * helper method to display sent message on GUI

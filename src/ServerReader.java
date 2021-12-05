@@ -6,12 +6,16 @@
 * DATE LAST MODIFIED: 12/4/2021
 ******************************************************************************************************/
 
+import javafx.scene.control.Label;
+
 import java.io.*;
 import java.net.*;
 
 public class ServerReader {
 	
 	private Socket socket;
+    private BufferedReader reader;
+    private String receivedMessage;
 	
 	/**
      * creates a byte stream over the socket connection to receive data
@@ -28,7 +32,7 @@ public class ServerReader {
 
         while (true) {
             try {
-                getMessage(reader.readLine());
+                receivedMessage(reader.readLine());
             } catch (IOException e) {
                 System.out.println("Error reading from server: " + e.getMessage());
                 e.printStackTrace();
@@ -45,7 +49,7 @@ public class ServerReader {
 		this.socket = socket;
         try {
             OutputStream output = socket.getOutputStream();
-            Printwriter writer = new PrintWriter(output, true);
+            PrintWriter writer = new PrintWriter(output, true);
         } catch (IOException e) {
             System.out.println("Error getting output stream: " + e.getMessage());
             e.printStackTrace();
@@ -61,13 +65,13 @@ public class ServerReader {
 	
 	/**
 	* creates a byte stream over the socket connection to send user messages
-	*@param String message: the message the user wishes to send
+	*@param message: the message the user wishes to send
 	*/
 	public void sendMessageData(String message){
         try {
             OutputStream output = socket.getOutputStream();
 			output.write(message.getBytes());	//writes the message to the output stream
-            Printwriter writer = new PrintWriter(output, true);
+            PrintWriter writer = new PrintWriter(output, true);
         } catch (IOException e) {
             System.out.println("Error getting output stream: " + e.getMessage());
             e.printStackTrace();
@@ -79,6 +83,20 @@ public class ServerReader {
             System.out.println("Error writing to server: " + e.getMessage());
         }//end catch
 	}//end sendMessageData
-	
+
+    /**
+     * helper method to display received message on GUI
+     * @param text
+     */
+    public void receivedMessage(String text) {
+        receivedMessage = text;
+//        messages.getChildren().add(new Label("Anon: " + text));
+    }
+
+    public String getReceivedMessage() {
+        return receivedMessage;
+    }
+
+
 	
 }//end ServerReader
