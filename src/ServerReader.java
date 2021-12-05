@@ -16,6 +16,8 @@ public class ServerReader {
 	private Socket socket;
     private BufferedReader reader;
     private String receivedMessage;
+
+    private boolean sentMessage = false; //message not sent by default
 	
 	/**
      * creates a byte stream over the socket connection to receive data
@@ -33,6 +35,7 @@ public class ServerReader {
         while (true) {
             try {
                 receivedMessage(reader.readLine());
+                sentMessage = false; // user has not sent a message at this time
             } catch (IOException e) {
                 System.out.println("Error reading from server: " + e.getMessage());
                 e.printStackTrace();
@@ -60,6 +63,8 @@ public class ServerReader {
         } catch (IOException e) {
             System.out.println("Error writing to server: " + e.getMessage());
         }
+
+        sentMessage = true; // user has sent a message
     }
 	
 	
@@ -97,6 +102,6 @@ public class ServerReader {
         return receivedMessage;
     }
 
-
+    public boolean hasSentMessage() { return sentMessage; }
 	
 }//end ServerReader

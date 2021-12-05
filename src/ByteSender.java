@@ -8,32 +8,62 @@ import java.util.Random;
  * Date Last Modified: 12/05/2021
  *******************************/
 
-public class ByteSender {
-    private int seed; //assuming seed is an int
+public class ByteSender extends ServerReader {
 
-    public ByteSender(int seed) { //unsure if we're supposed to have one or two seeds
-        this.seed = seed;
+    private boolean stop;
+
+    /**
+     * This class will then make a check against a boolean variable to see
+     * if the user has made an inputted message in the chat client. If the
+     * user has inputted a message, it will start reading the bytes of the
+     * message and XORing them against the results of the XORed generated
+     * coin tosses. Otherwise (no message sent), the coin tossed will be
+     * sent to the server. This procedure continues until the client receives
+     * a signal to stop.
+     */
+    public ByteSender(int serverSeed, int clientSeed) { //assuming seed is an int
+
+        // unsure if we're supposed to generate a new value each time or not
+        coinToss(serverSeed);
+        coinToss(clientSeed);
+        //XOR these two together
+
+        stop = true;
+
+        while (!stop) {
+            if (hasSentMessage()) {
+                //read bytes of message
+                //XOR them against results of XORed generated coin tosses
+            }
+            else { //user has not sent a message
+                //send generated coin tosses and XORed value to server
+            }
+
+            //if (user signals stop) { stop = true; }
+        }
     }
 
     /**
      * Pseudo coin toss where each toss ia a string of numbers, and each
      * number's binary value will equal 8 coin tosses. A generated binary
-     * value will be XORed. This class will then make a check against a
-     * boolean variable to see if the user has made an inputted message in
-     * the chat client. If the user has inputted a message, it will start
-     * reading the bytes of the message and XORing them against the results
-     * of the XORed generated coin tosses. Otherwise (no message sent), the
-     * coin tossed will be sent to the server. This procedure continues until
-     * the client receives a signal to stop.
+     * value will be XORed.
      * @return
      */
-    private int coinToss() {
+    private byte[] coinToss(int seed) {
         // generates a random integer from 0-256 (2^8)
-        Random coin = new Random(10);
+        // NOTE: will generate the SAME random number if given the same seed every time
+        Random coin = new Random(seed);
         int toss = coin.nextInt(256);
         // output 8 bit binary as a String
         String binaryToss = String.format("%8s", Integer.toBinaryString(toss)).replaceAll(" ", "0");
+        // convert String to byte array
+        byte[] binaryByteArray = new byte[8];
+        for (int i = 7; i >= 0; i--) {
+            int temp = Integer.parseInt(String.valueOf(binaryToss.charAt(i)));
+            binaryByteArray[i] = (byte)temp;
+            System.out.print(binaryByteArray[i]);
+        }
 
-        return 0;
+        return binaryByteArray;
     }
 }
