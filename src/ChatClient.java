@@ -141,6 +141,7 @@ public class ChatClient extends Application{
                 sendMessage(sendMessage.getText()); //send message
                 messages.getChildren().add(new Label("You: " + sendMessage.getText())); //append new message onto chat window
                 System.out.println(sendMessage.getText());
+				sendMessageData(sendMessage.getText());	//calls the sendMessageData method from ServerReader
             }
         });
         HBox bottomBar = new HBox(sendMessage, sendButton);
