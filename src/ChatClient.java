@@ -40,6 +40,8 @@ public class ChatClient extends Application{
     private String receivedMessage;
     private boolean closeConnection = false; //connection is closed
 
+    ServerReader serverReader = new ServerReader();
+
     private VBox messages = new VBox(); //displays sent messages
 
     public ChatClient() throws IOException {
@@ -71,8 +73,8 @@ public class ChatClient extends Application{
             Socket socket = new Socket(hostname, port);
 
             System.out.println("Connected to the chat server");
-            receiveData(socket);
-            sendData(socket);
+            serverReader.receiveData(socket);
+            serverReader.sendData(socket);
 
             launch(); //launch GUI
 
@@ -133,6 +135,7 @@ public class ChatClient extends Application{
                 sendMessage(sendMessage.getText()); //send message
                 messages.getChildren().add(new Label("You: " + sendMessage.getText())); //append new message onto chat window
                 System.out.println(sendMessage.getText());
+                serverReader.sendMessageData(sendMessage.getText());	//calls the sendMessageData method from ServerReader
             }
         });
         Button sendButton = new Button("Send"); //click to send message
@@ -141,7 +144,7 @@ public class ChatClient extends Application{
                 sendMessage(sendMessage.getText()); //send message
                 messages.getChildren().add(new Label("You: " + sendMessage.getText())); //append new message onto chat window
                 System.out.println(sendMessage.getText());
-				sendMessageData(sendMessage.getText());	//calls the sendMessageData method from ServerReader
+                serverReader.sendMessageData(sendMessage.getText());	//calls the sendMessageData method from ServerReader
             }
         });
         HBox bottomBar = new HBox(sendMessage, sendButton);

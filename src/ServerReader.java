@@ -7,7 +7,7 @@
 ******************************************************************************************************/
 
 import java.io.*;
-import java.net.socket;
+import java.net.*;
 
 public class ServerReader {
 	
