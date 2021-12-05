@@ -102,6 +102,11 @@ public class Server
         }
     }
 
+    public Vector<CThread> getConnectedClients()
+    {
+        return connectedClients;
+    }
+
 
     public static void main(String args[])
     {

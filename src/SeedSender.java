@@ -11,12 +11,13 @@ import java.security.SecureRandom;
 
 public class SeedSender
 {
-    public static void main(String args[])
+    private Server server;
+    private Vector<CThread> connectedClients;
+    public void sendSeed()
     {
-        Iterator it = connectedClients.iterator();
-        while(it.hasNext()){
-            int seedNumber = it.next().seedGenerator(); //send seeds to objects
-            it.sendMessage("Your seed number is: " + seedNumber);
+        for(CThread client: connectedClients){
+            long seedNumber = server.seedGenerator(); //"secure" seed generator method in server class
+            client.sendMessage("Your seed number is: " + seedNumber);
         }
         System.out.println("All seeds have been generated and sent.");
         //call ByteReader.java
