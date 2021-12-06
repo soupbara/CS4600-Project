@@ -1,4 +1,6 @@
+import java.net.Socket;
 import java.util.Random;
+import java.io.*;
 
 /*****************************
  * Purpose: When anonymous mode is activated, this class is triggered
@@ -14,6 +16,7 @@ public class ByteSender extends ServerReader {
 	private byte[] serverToss;
 	private byte[] clientToss;
 	private byte[] xorResult;
+	private Socket socket;
 
     /**
      * This class will then make a check against a boolean variable to see
@@ -43,14 +46,36 @@ public class ByteSender extends ServerReader {
         while (!stop) {
             if (hasSentMessage()) {
                 String sentMessage = getSentMessage(); //read bytes of message
+                byte[] finalResult = new byte[sentMessage.length()];
 
-                //XOR them against results of XORed generated coin tosses
+                //reverse sent message and put into byte array
+                byte[] temp = new byte[sentMessage.length()];
+                for (int i = sentMessage.length()-1; i >= 0; i--) {
+                    temp[i] = (byte)sentMessage.charAt(i);
+                }
+
+                int i = 0;
+                int length;
+                if (temp.length > xorResult.length) //determining which is longer
+                    length = temp.length;
+                else
+                    length = xorResult.length;
+
+                while (i < length) {
+                    if (i >= xorResult.length) //if temp.length > xorResult.length
+                        finalResult[i] = (byte)(0 ^ temp[i]);
+                    else if (i >= temp.length && i > xorResult.length) //if xorResult.length > temp.length
+                        finalResult[i] = (byte)(0 ^ xorResult[i]);
+                    else
+                        finalResult[i] = (byte)(xorResult[i] ^ temp[i]); //XOR them against result of xorResult
+                    i++;
+                }//end for
             }
             else { //user has not sent a message
                 //send generated coin tosses and XORed value to server
+                socket = new Socket();
+                sendData(socket);
             }
-
-            //if (user signals stop) { stop = true; }
         }
     }
 
@@ -76,5 +101,22 @@ public class ByteSender extends ServerReader {
         }
 
         return binaryByteArray;
+    }
+
+    public void sendData(Socket socket) {
+        try {
+            OutputStream output = socket.getOutputStream();
+            output.write(xorResult);
+            PrintWriter writer = new PrintWriter(output, true);
+        } catch (IOException e) {
+            System.out.println("Error getting output stream: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        try {
+            socket.close();
+        } catch (IOException e) {
+            System.out.println("Error writing to server: " + e.getMessage());
+        }
     }
 }
