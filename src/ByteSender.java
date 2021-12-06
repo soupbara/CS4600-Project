@@ -1,7 +1,7 @@
 import java.util.Random;
 
 /*****************************
- * Purpose: When anonymous mode is activated, this class is striggered
+ * Purpose: When anonymous mode is activated, this class is triggered
  * and starts and infinite loop. It uses a seed given to the client by
  * the server and the other client to generate pseudo random "coin tosses"
  *@author: April Trinh
@@ -42,7 +42,8 @@ public class ByteSender extends ServerReader {
 
         while (!stop) {
             if (hasSentMessage()) {
-                //read bytes of message
+                String sentMessage = getSentMessage(); //read bytes of message
+
                 //XOR them against results of XORed generated coin tosses
             }
             else { //user has not sent a message

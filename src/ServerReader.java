@@ -16,8 +16,9 @@ public class ServerReader {
 	private Socket socket;
     private BufferedReader reader;
     private String receivedMessage;
+    private String sentMessage;
 
-    private boolean sentMessage = false; //message not sent by default
+    private boolean messageIsSent = false; //message not sent by default
 	
 	/**
      * creates a byte stream over the socket connection to receive data
@@ -35,7 +36,7 @@ public class ServerReader {
         while (true) {
             try {
                 receivedMessage(reader.readLine());
-                sentMessage = false; // user has not sent a message at this time
+                messageIsSent = false; // user has not sent a message at this time
             } catch (IOException e) {
                 System.out.println("Error reading from server: " + e.getMessage());
                 e.printStackTrace();
@@ -64,7 +65,7 @@ public class ServerReader {
             System.out.println("Error writing to server: " + e.getMessage());
         }
 
-        sentMessage = true; // user has sent a message
+        messageIsSent = true; // user has sent a message
     }
 	
 	
@@ -73,6 +74,8 @@ public class ServerReader {
 	*@param message: the message the user wishes to send
 	*/
 	public void sendMessageData(String message){
+        sentMessage = message; // get the string of the message sent
+
         try {
             OutputStream output = socket.getOutputStream();
 			output.write(message.getBytes());	//writes the message to the output stream
@@ -95,13 +98,14 @@ public class ServerReader {
      */
     public void receivedMessage(String text) {
         receivedMessage = text;
-//        messages.getChildren().add(new Label("Anon: " + text));
     }
 
     public String getReceivedMessage() {
         return receivedMessage;
     }
 
-    public boolean hasSentMessage() { return sentMessage; }
+    public String getSentMessage() { return sentMessage; }
+
+    public boolean hasSentMessage() { return messageIsSent; }
 	
 }//end ServerReader
