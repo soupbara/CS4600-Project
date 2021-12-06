@@ -21,6 +21,7 @@ public class Server
 
     private static String address = "239.0.0.0";
     private static int port = 1234;
+    private SeedSender seedSender;
     public static String getAddress()
     {
         return address;
@@ -31,20 +32,23 @@ public class Server
     }
 
     // seed for the clients to use for their "coin toss"
-    public static long seedGenerator()
+    public long seedGenerator()
     {
         SecureRandom rand = new SecureRandom();
         long val = rand.nextLong();
         System.out.println("val = " + val);
         return val;
     }
-    public static void run()
+    public void run()
     {
         try (ServerSocket serverSocket = new ServerSocket(port))
         {
             System.out.println("Server is listening to port: " + port);
             //starting the ongoing loop to listen for incoming connections from clients
-            while(true)
+            //listening for a specific number of clients
+            int clients = 0;
+            int maxClients = 3;
+            while(clients != maxClients)
             {
                 Socket socket = serverSocket.accept();
                 System.out.println("A new user has connected");
@@ -53,8 +57,10 @@ public class Server
                 CThread newClient = new CThread(socket, port);
                 connectedClients.add(newClient);
                 newClient.start();
-
+                clients ++;
             }
+            //after all clients connect, generate seeds and send to clients
+            seedSender.sendSeed();
         }
         catch(IOException ex)
         {
@@ -115,6 +121,5 @@ public class Server
 
         Server server = new Server();
         server.run();
-
     }
 }

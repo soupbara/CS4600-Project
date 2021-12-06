@@ -14,12 +14,15 @@ public class ByteReader
     private SessionTimer timer;
     private Server server;
     private CThread  client;
+    private SeedSender seedSender;
     private static Vector<CThread> connectedClients = new Vector<CThread>();
 
     //call session timer
     public void reader()
     {
         connectedClients = server.getConnectedClients();
+        // send seeds first
+        seedSender.sendSeed();
         //start tracking the session time
         timer.TimerMethod();
         //

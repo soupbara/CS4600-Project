@@ -7,6 +7,7 @@
  *******************************/
 import java.io.*;
 import java.net.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class CThread extends Thread
@@ -79,7 +80,16 @@ public class CThread extends Thread
     //sending the users the message
     public void sendMessage(String message)
     {
-        writer.println(message);
+        String msg = message;
+        try{
+            OutputStream output= socket.getOutputStream();
+            output.write(msg.getBytes());
+        }
+        catch (IOException ex)
+        {
+            System.out.println("Error getting output stream: " + ex.getMessage());
+            ex.printStackTrace();
+        }
     }
 
     public byte[] getMsg(Socket socket)
