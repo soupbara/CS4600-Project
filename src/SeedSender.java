@@ -12,7 +12,7 @@ import java.security.SecureRandom;
 public class SeedSender
 {
     private Server server;
-    private ByteReader byterReader;
+    private ByteReader byteReader;
     private Vector<CThread> connectedClients;
     public void sendSeed()
     {
@@ -22,6 +22,6 @@ public class SeedSender
         }
         System.out.println("All seeds have been generated and sent.");
         //call ByteReader.java
-        byterReader.reader();
+        byteReader.reader();
     }
 }

@@ -8,11 +8,10 @@
 import java.io.*;
 import java.net.*;
 import java.util.*;
-import java.net.*;
 
 public class CThread extends Thread
 {
-    private Socket socket;
+    public Socket socket;
     private int port;
     private PrintWriter writer;
     private Server server;
@@ -47,15 +46,14 @@ public class CThread extends Thread
                 clientMsg = reader.readLine();
                 serverMsg = "[" + clientName + "]" + clientMsg;
                 server.broadcast(serverMsg, this);
-            }while(!clientMsg.equals("bye"));
+            }while(true);
 
-
-
+            /*
             server.disconnectClient(clientName, this);
             socket.close();
 
             serverMsg = clientName + "has left";
-            server.broadcast(serverMsg, this);
+            server.broadcast(serverMsg, this);*/
 
         }
         catch (IOException ex)
@@ -84,4 +82,29 @@ public class CThread extends Thread
         writer.println(message);
     }
 
+    public byte[] getMsg(Socket socket)
+    {
+        try
+        {
+            byte[] msg;
+            DataInputStream input = new DataInputStream(socket.getInputStream());
+            int length = input.readInt(); // getting the length of array
+            if (length > 0)
+            {
+                msg = new byte[length];
+                input.readFully(msg, 0, msg.length);
+            }
+            else{
+                msg = new byte[0];
+                msg[0] = 0;
+            }
+            return msg;
+        }
+        catch (IOException ex)
+        {
+            System.out.println("Error getting input stream: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+        return null;
+    }
 }
