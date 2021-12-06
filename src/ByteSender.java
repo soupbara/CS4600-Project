@@ -29,13 +29,13 @@ public class ByteSender extends ServerReader {
         // unsure if we're supposed to generate a new value each time or not
         serverToss = coinToss(serverSeed);
         clientToss = coinToss(clientSeed);
-		xorResult = new byte[serverToss.length()];	//byte[] to store the XOR result
+		xorResult = new byte[serverToss.length];	//byte[] to store the XOR result
 		
         //XOR these two together
 		//for loop that XOR each bit of serverToss and clientToss
 		//the result is stored in the byte[] xorResult
-		for(int i = 0; i < serverToss.length(); i++){
-			xorResult[i] = serverToss[i] ^ clientToss[i];
+		for(int i = 0; i < serverToss.length; i++){
+			xorResult[i] = (byte)(serverToss[i] ^ clientToss[i]);
 		}//end for
 
         stop = true;
