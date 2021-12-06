@@ -19,6 +19,9 @@ public class ServerReader {
     private String sentMessage;
 
     private boolean messageIsSent = false; //message not sent by default
+
+    private long clientSeed;
+    private long serverSeed;
 	
 	/**
      * creates a byte stream over the socket connection to receive data
@@ -91,6 +94,18 @@ public class ServerReader {
             System.out.println("Error writing to server: " + e.getMessage());
         }//end catch
 	}//end sendMessageData
+
+    /**
+     * helper methods to get the seeds from the server
+     * @param clientSeed
+     * @param serverSeed
+     */
+    public void setSeeds(long clientSeed, long serverSeed) {
+	    this.clientSeed = clientSeed;
+	    this.serverSeed = serverSeed;
+    }
+    public long getClientSeeds() { return clientSeed; }
+    public long getServerSeeds() { return serverSeed; }
 
     /**
      * helper method to display received message on GUI
