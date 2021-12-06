@@ -3,16 +3,16 @@
  * All the messages sent by the clients will be handled by this class
  *
  *@author:
- * Date Last Modified:
+ * Date Last Modified: Alexa Tang
  *******************************/
 import java.io.*;
 import java.net.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.net.*;
 
 public class CThread extends Thread
 {
-    private Socket socket;
+    public Socket socket;
     private int port;
     private PrintWriter writer;
     private Server server;
@@ -32,10 +32,29 @@ public class CThread extends Thread
             OutputStream output = socket.getOutputStream();
             writer = new PrintWriter(output, true);
 
+            printUsers();
+            String clientName = reader.readLine();
+            server.addClientName(clientName);
+
             //announce new user
+            String serverMsg = "new user connected: " + clientName;
+            server.broadcast(serverMsg, this);
 
-            //loop for reading messages
+            String clientMsg;
 
+            // at this point dont wanna send with user name
+            do{
+                clientMsg = reader.readLine();
+                serverMsg = "[" + clientName + "]" + clientMsg;
+                server.broadcast(serverMsg, this);
+            }while(true);
+
+            /*
+            server.disconnectClient(clientName, this);
+            socket.close();
+
+            serverMsg = clientName + "has left";
+            server.broadcast(serverMsg, this);*/
 
         }
         catch (IOException ex)
@@ -61,7 +80,41 @@ public class CThread extends Thread
     //sending the users the message
     public void sendMessage(String message)
     {
-        writer.println(message);
+        String msg = message;
+        try{
+            OutputStream output= socket.getOutputStream();
+            output.write(msg.getBytes());
+        }
+        catch (IOException ex)
+        {
+            System.out.println("Error getting output stream: " + ex.getMessage());
+            ex.printStackTrace();
+        }
     }
 
+    public byte[] getMsg(Socket socket)
+    {
+        try
+        {
+            byte[] msg;
+            DataInputStream input = new DataInputStream(socket.getInputStream());
+            int length = input.readInt(); // getting the length of array
+            if (length > 0)
+            {
+                msg = new byte[length];
+                input.readFully(msg, 0, msg.length);
+            }
+            else{
+                msg = new byte[0];
+                msg[0] = 0;
+            }
+            return msg;
+        }
+        catch (IOException ex)
+        {
+            System.out.println("Error getting input stream: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+        return null;
+    }
 }
