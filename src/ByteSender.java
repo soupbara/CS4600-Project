@@ -27,7 +27,7 @@ public class ByteSender extends ServerReader {
      * sent to the server. This procedure continues until the client receives
      * a signal to stop.
      */
-    public ByteSender(int serverSeed, int clientSeed) { //assuming seed is an int
+    public ByteSender(long serverSeed, long clientSeed) { //assuming seed is an int
 
         // unsure if we're supposed to generate a new value each time or not
         serverToss = coinToss(serverSeed);
@@ -85,7 +85,7 @@ public class ByteSender extends ServerReader {
      * value will be XORed.
      * @return
      */
-    private byte[] coinToss(int seed) {
+    private byte[] coinToss(long seed) {
         // generates a random integer from 0-256 (2^8)
         // NOTE: will generate the SAME random number if given the same seed every time
         Random coin = new Random(seed);
