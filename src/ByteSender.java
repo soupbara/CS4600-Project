@@ -11,6 +11,9 @@ import java.util.Random;
 public class ByteSender extends ServerReader {
 
     private boolean stop;
+	private byte[] serverToss;
+	private byte[] clientToss;
+	private byte[] xorResult;
 
     /**
      * This class will then make a check against a boolean variable to see
@@ -24,9 +27,16 @@ public class ByteSender extends ServerReader {
     public ByteSender(int serverSeed, int clientSeed) { //assuming seed is an int
 
         // unsure if we're supposed to generate a new value each time or not
-        coinToss(serverSeed);
-        coinToss(clientSeed);
+        serverToss = coinToss(serverSeed);
+        clientToss = coinToss(clientSeed);
+		xorResult = new byte[serverToss.length()];	//byte[] to store the XOR result
+		
         //XOR these two together
+		//for loop that XOR each bit of serverToss and clientToss
+		//the result is stored in the byte[] xorResult
+		for(int i = 0; i < serverToss.length(); i++){
+			xorResult[i] = serverToss[i] ^ clientToss[i];
+		}//end for
 
         stop = true;
 
