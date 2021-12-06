@@ -32,10 +32,30 @@ public class CThread extends Thread
             OutputStream output = socket.getOutputStream();
             writer = new PrintWriter(output, true);
 
+            printUsers();
+            String clientName = reader.readLine();
+            server.addClientName(clientName);
+
             //announce new user
+            String serverMsg = "new user connected: " + clientName;
+            server.broadcast(serverMsg, this);
 
-            //loop for reading messages
+            String clientMsg;
 
+            // at this point dont wanna send with user name
+            do{
+                clientMsg = reader.readLine();
+                serverMsg = "[" + clientName + "]" + clientMsg;
+                server.broadcast(serverMsg, this);
+            }while(!clientMsg.equals("bye"));
+
+
+
+            server.disconnectClient(clientName, this);
+            socket.close();
+
+            serverMsg = clientName + "has left";
+            server.broadcast(serverMsg, this);
 
         }
         catch (IOException ex)

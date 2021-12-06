@@ -49,7 +49,7 @@ public class Server
                 Socket socket = serverSocket.accept();
                 System.out.println("A new user has connected");
 
-                //creating a CThread class object
+                //creating a CThread class object for each connected client
                 CThread newClient = new CThread(socket, port);
                 connectedClients.add(newClient);
                 newClient.start();

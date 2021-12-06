@@ -11,9 +11,17 @@ import java.security.SecureRandom;
 
 public class ByteReader
 {
+    private SessionTimer timer;
     //call session timer
-    while(true)
-    { return 0;
+    public void reader()
+    {
+        //start tracking the session time
+        timer.TimerMethod();
+        //
+        while(true)
+        {
 
+        }
     }
+
 }

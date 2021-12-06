@@ -12,7 +12,9 @@ import java.util.Vector;
 public class SessionTimer
 {
     long startTime = System.currentTimeMillis();
-    Server server; // server class object to access the connectedClients vector
+    private Server server; // server class object to access the connectedClients vector
+    public SessionTimer()
+    {}
 
     //long elapsedTime = 0L.
     /*public static void main(String args[])
