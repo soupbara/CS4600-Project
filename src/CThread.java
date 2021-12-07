@@ -32,7 +32,11 @@ public class CThread extends Thread
             OutputStream output = socket.getOutputStream();
             writer = new PrintWriter(output, true);
 
-            printUsers();
+            server  = new Server();
+
+            if(server.hasUsers())
+                printUsers();
+
             String clientName = reader.readLine();
             server.addClientName(clientName);
 
