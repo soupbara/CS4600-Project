@@ -68,15 +68,19 @@ public class ChatClient extends Application{
         this.port = port;
     }
 
-    public void launchWindow() throws IOException {
+    public void launchWindow() {
+        launch(); //launch GUI
+    }
+
+    /**
+     * helper method to connect to the chat server by passing in the sockets
+     */
+    private void connectChatServer(String hostname, int port) {
         try {
             Socket socket = new Socket(hostname, port);
-            //launch(); //launch GUI
             System.out.println("Connected to the chat server");
             serverReader.receiveData(socket);
             serverReader.sendData(socket);
-
-            launch(); //launch GUI
 
             while (true) { // display received messages
                 messages.getChildren().add(new Label("Anon: " + serverReader.getReceivedMessage()));
@@ -117,8 +121,10 @@ public class ChatClient extends Application{
         Label inputKeyLabel = new Label("Input Key");
         TextField inputKey = new TextField();
         inputKey.setOnKeyReleased(e -> {
-            if (inputKey.getText().equals(key) && (e.getCode() == KeyCode.ENTER))
+            if (inputKey.getText().equals(key) && (e.getCode() == KeyCode.ENTER)) {
                 primaryStage.setScene(chatRoomScene);
+                connectChatServer("localhost", 1234); // ((:
+            }
         });
         VBox inputKeyContainer = new VBox(inputKeyLabel, inputKey);
 
