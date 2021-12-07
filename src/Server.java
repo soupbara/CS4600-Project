@@ -19,7 +19,7 @@ public class Server
     private static Vector<CThread> connectedClients = new Vector<CThread>();
     private static Vector<String> clientNames = new Vector<String>();
 
-    private static String address = "239.0.0.0";
+    private static String address = "localhost";
     private static int port = 1234;
     private SeedSender seedSender;
     public static String getAddress()

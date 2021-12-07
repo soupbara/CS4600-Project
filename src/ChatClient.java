@@ -71,7 +71,7 @@ public class ChatClient extends Application{
     public void launchWindow() throws IOException {
         try {
             Socket socket = new Socket(hostname, port);
-
+            //launch(); //launch GUI
             System.out.println("Connected to the chat server");
             serverReader.receiveData(socket);
             serverReader.sendData(socket);
