@@ -27,7 +27,7 @@ public class ServerReader {
      * creates a byte stream over the socket connection to receive data
      * @param socket
      */
-    public void receiveData(/*Socket socket*/) {
+    public void receiveData(Socket socket) {
         try {
             InputStream input = socket.getInputStream();
             reader = new BufferedReader(new InputStreamReader(input));
@@ -37,6 +37,7 @@ public class ServerReader {
         }
 
         try {
+            //TODO: add lines to save message into string for receivedMessage call
             receivedMessage(reader.readLine());
             messageIsSent = false; // user has not sent a message at this time
         } catch (IOException e) {
@@ -58,13 +59,13 @@ public class ServerReader {
             System.out.println("Error getting output stream: " + e.getMessage());
             e.printStackTrace();
         }
-
+        /*
         try {
             socket.close();
         } catch (IOException e) {
             System.out.println("Error writing to server: " + e.getMessage());
         }
-
+        */
         messageIsSent = true; // user has sent a message
     }
 	
@@ -84,12 +85,14 @@ public class ServerReader {
             System.out.println("Error getting output stream: " + e.getMessage());
             e.printStackTrace();
         }
-
+        /*
         try {
             socket.close();
         } catch (IOException e) {
             System.out.println("Error writing to server: " + e.getMessage());
         }//end catch
+
+         */
 	}//end sendMessageData
 
     /**

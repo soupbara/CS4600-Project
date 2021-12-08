@@ -52,7 +52,7 @@ public class Server
             //starting the ongoing loop to listen for incoming connections from clients
             //listening for a specific number of clients
             int clients = 0;
-            int maxClients = 3;
+            int maxClients = 2;
             while(clients != maxClients)
             {
                 Socket socket = serverSocket.accept();
