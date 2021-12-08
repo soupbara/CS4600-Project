@@ -153,6 +153,7 @@ public class ChatClient extends Application{
                 messages.getChildren().add(new Label("You: " + message)); //append new message onto chat window
                 System.out.println(message);
                 serverReader.sendMessageData(message, socket);	//calls the sendMessageData method from ServerReader
+                refresh();
             }
         });
         Button sendButton = new Button("Send"); //click to send message
@@ -164,6 +165,7 @@ public class ChatClient extends Application{
                 messages.getChildren().add(new Label("You: " + message)); //append new message onto chat window
                 System.out.println(message);
                 serverReader.sendMessageData(message, socket);	//calls the sendMessageData method from ServerReader
+                refresh();
             }
         });
         HBox bottomBar = new HBox(10, sendMessage, sendButton);
