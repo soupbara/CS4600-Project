@@ -126,34 +126,51 @@ public class ChatClient extends Application{
                 connectChatServer("localhost", 1234); // ((:
             }
         });
-        VBox inputKeyContainer = new VBox(inputKeyLabel, inputKey);
+        VBox inputKeyContainer = new VBox(10, inputKeyLabel, inputKey);
 
         /**CHAT PAGE*/
         chatRoom.setCenter(messages);
 
-        TextField sendMessage = new TextField("Send a message"); //where you type
+        Label participantLabel = new Label("Online:");
+        Label you = new Label("You");
+        VBox participantList = new VBox(5, participantLabel, you);
+        chatRoom.setRight(participantList);
+
+        TextField sendMessage = new TextField(); //where you type
         sendMessage.setOnKeyReleased(e -> {
             if (!sendMessage.getText().isEmpty() && (e.getCode() == KeyCode.ENTER)) {
-                sendMessage(sendMessage.getText()); //send message
-                messages.getChildren().add(new Label("You: " + sendMessage.getText())); //append new message onto chat window
-                System.out.println(sendMessage.getText());
-                serverReader.sendMessageData(sendMessage.getText());	//calls the sendMessageData method from ServerReader
+                String message = sendMessage.getText();
+                sendMessage.clear(); //clear message after sending
+                sendMessage(message); //send message
+                messages.getChildren().add(new Label("You: " + message)); //append new message onto chat window
+                System.out.println(message);
+                serverReader.sendMessageData(message);	//calls the sendMessageData method from ServerReader
             }
         });
         Button sendButton = new Button("Send"); //click to send message
         sendButton.setOnAction(e -> {
             if (!sendMessage.getText().isEmpty()) {
-                sendMessage(sendMessage.getText()); //send message
-                messages.getChildren().add(new Label("You: " + sendMessage.getText())); //append new message onto chat window
-                System.out.println(sendMessage.getText());
-                serverReader.sendMessageData(sendMessage.getText());	//calls the sendMessageData method from ServerReader
+                String message = sendMessage.getText();
+                sendMessage.clear(); //clear message after sending
+                sendMessage(message); //send message
+                messages.getChildren().add(new Label("You: " + message)); //append new message onto chat window
+                System.out.println(message);
+                serverReader.sendMessageData(message);	//calls the sendMessageData method from ServerReader
             }
         });
-        HBox bottomBar = new HBox(sendMessage, sendButton);
+        HBox bottomBar = new HBox(10, sendMessage, sendButton);
         chatRoom.setBottom(bottomBar);
 
+        // key input page styling
         keyInput.setCenter(inputKeyContainer);
         inputKeyContainer.setAlignment(Pos.CENTER);
+        inputKeyContainer.setPadding(new Insets(25));
+
+        // chat page styling
+        sendMessage.setPrefWidth(675);
+        chatRoom.setPadding(new Insets(25));
+        participantList.setPrefWidth(100);
+
 
         primaryStage.setScene(keyInputScene); //places scene onto the primary stage
         primaryStage.show(); //display
