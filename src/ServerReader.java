@@ -36,15 +36,12 @@ public class ServerReader {
             e.printStackTrace();
         }
 
-        while (true) {
-            try {
-                receivedMessage(reader.readLine());
-                messageIsSent = false; // user has not sent a message at this time
-            } catch (IOException e) {
-                System.out.println("Error reading from server: " + e.getMessage());
-                e.printStackTrace();
-                break;
-            }
+        try {
+            receivedMessage(reader.readLine());
+            messageIsSent = false; // user has not sent a message at this time
+        } catch (IOException e) {
+            System.out.println("Error reading from server: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 	
@@ -76,7 +73,7 @@ public class ServerReader {
 	* creates a byte stream over the socket connection to send user messages
 	*@param message: the message the user wishes to send
 	*/
-	public void sendMessageData(String message){
+	public void sendMessageData(String message, Socket socket){
         sentMessage = message; // get the string of the message sent
 
         try {

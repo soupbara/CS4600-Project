@@ -40,7 +40,9 @@ public class ChatClient extends Application{
     private String receivedMessage;
     private boolean closeConnection = false; //connection is closed
 
-    ServerReader serverReader = new ServerReader();
+    private ServerReader serverReader = new ServerReader();
+
+    private Socket socket;
 
     private VBox messages = new VBox(); //displays sent messages
 
@@ -77,20 +79,21 @@ public class ChatClient extends Application{
      */
     private void connectChatServer(String hostname, int port) {
         try {
-            Socket socket = new Socket(hostname, port);
+            socket = new Socket(hostname, port);
             System.out.println("Connected to the chat server");
-            serverReader.receiveData(socket);
-            serverReader.sendData(socket);
-
-            while (true) { // display received messages
-                messages.getChildren().add(new Label("Anon: " + serverReader.getReceivedMessage()));
-            }
-
         } catch (UnknownHostException ex) {
             System.out.println("Server not found: " + ex.getMessage());
         } catch (IOException e) {
             System.out.println("I/O Error: " + e.getMessage());
         }
+    }
+
+    private void refresh(){
+        System.out.println("Stream refreshing...");
+        serverReader.receiveData(socket);
+        serverReader.sendData(socket);
+
+        messages.getChildren().add(new Label("Anon: " + serverReader.getReceivedMessage()));
     }
 
     //place where receiveData was
@@ -131,6 +134,11 @@ public class ChatClient extends Application{
         /**CHAT PAGE*/
         chatRoom.setCenter(messages);
 
+        Button refresh = new Button("Refresh");
+        HBox options = new HBox(refresh);
+        refresh.setOnAction(e -> refresh()); //refresh to get incoming messages
+        chatRoom.setTop(options);
+
         Label participantLabel = new Label("Online:");
         Label you = new Label("You");
         VBox participantList = new VBox(5, participantLabel, you);
@@ -144,7 +152,7 @@ public class ChatClient extends Application{
                 sendMessage(message); //send message
                 messages.getChildren().add(new Label("You: " + message)); //append new message onto chat window
                 System.out.println(message);
-                serverReader.sendMessageData(message);	//calls the sendMessageData method from ServerReader
+                serverReader.sendMessageData(message, socket);	//calls the sendMessageData method from ServerReader
             }
         });
         Button sendButton = new Button("Send"); //click to send message
@@ -155,7 +163,7 @@ public class ChatClient extends Application{
                 sendMessage(message); //send message
                 messages.getChildren().add(new Label("You: " + message)); //append new message onto chat window
                 System.out.println(message);
-                serverReader.sendMessageData(message);	//calls the sendMessageData method from ServerReader
+                serverReader.sendMessageData(message, socket);	//calls the sendMessageData method from ServerReader
             }
         });
         HBox bottomBar = new HBox(10, sendMessage, sendButton);
@@ -170,7 +178,6 @@ public class ChatClient extends Application{
         sendMessage.setPrefWidth(675);
         chatRoom.setPadding(new Insets(25));
         participantList.setPrefWidth(100);
-
 
         primaryStage.setScene(keyInputScene); //places scene onto the primary stage
         primaryStage.show(); //display
