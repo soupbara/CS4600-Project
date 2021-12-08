@@ -11,15 +11,17 @@ import java.security.SecureRandom;
 
 public class SeedSender
 {
-    private Server server;
-    private ByteReader byteReader;
+    private Server server = new Server();
+    private ByteReader byteReader = new ByteReader();
     private Vector<CThread> connectedClients;
     private long [] clientSeeds;
-    private  CThread client;
+
+    //private  CThread client;
     public void sendSeed()
     {
         long seedNumber;
         connectedClients = server.getConnectedClients();
+
         clientSeeds = new long [connectedClients.size()];
         int numClients = connectedClients.size();
 

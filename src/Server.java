@@ -21,7 +21,7 @@ public class Server
 
     private static String address = "localhost";
     private static int port = 1234;
-    private SeedSender seedSender;
+    private SeedSender seedSender = new SeedSender();
     public static String getAddress()
     {
         return address;
@@ -63,23 +63,24 @@ public class Server
             seedSender.sendSeed();
         }
         catch(IOException ex)
-        {
-            System.out.println("Error in the server: " + ex.getMessage());
-            ex.printStackTrace();
-        }
-    }
-
-    //should we send message to *everyone* ???
-    public void broadcast(String message, CThread excludeUser)
-    {
-        for(CThread user: connectedClients)
-        {
-            if (user != excludeUser)
             {
-                user.sendMessage(message);
+                System.out.println("Error in the server: " + ex.getMessage());
+                ex.printStackTrace();
             }
         }
-    }
+
+        //should we send message to *everyone* ???
+        public void broadcast(String message, CThread excludeUser)
+        {
+            for(CThread user: connectedClients)
+            {
+                if (user != excludeUser)
+                {
+                    user.sendMessage(message);
+                }
+            }
+        }
+
 
     public boolean hasUsers()
     {
