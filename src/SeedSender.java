@@ -29,14 +29,15 @@ public class SeedSender
         ByteReader byteReader = new ByteReader(serverRunner.server);
         long seedNumber;
         System.out.println("getting connected clients");
-        connectedClients = server.getConnectedClients();
+        connectedClients = serverRunner.server.getConnectedClients();
 
         clientSeeds = new long [connectedClients.size()];
+        System.out.println("There are " + connectedClients + " connected clients");
         int numClients = connectedClients.size();
 
         for(int i = 0; i < numClients; i++)
         {
-            seedNumber = server.seedGenerator(); //"secure" seed generator method in server class
+            seedNumber = serverRunner.server.seedGenerator(); //"secure" seed generator method in server class
             clientSeeds[i] = seedNumber;
         }
         int c = 0;

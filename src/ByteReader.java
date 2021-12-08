@@ -29,11 +29,12 @@ public class ByteReader
     //call session timer
     public void reader()
     {
-        SeedSender seedSender = new SeedSender(serverRunner.server);
-        server = new Server();
-        connectedClients = server.getConnectedClients();
+        //SeedSender seedSender = new SeedSender(serverRunner.server);
+
+        connectedClients = serverRunner.server.getConnectedClients();
         // send seeds first
-        seedSender.sendSeed();
+        //seedSender.sendSeed();
+
         //start tracking the session time
         timer.TimerMethod();
         //
