@@ -16,7 +16,6 @@ public class ByteReader
     // server runner object to reference server object
     private ServerRunner serverRunner = new ServerRunner();
 
-    private SeedSender seedSender = new SeedSender(serverRunner.server);
     private SessionTimer timer = new SessionTimer(serverRunner.server);
 
     private static Vector<CThread> connectedClients = new Vector<CThread>();
@@ -30,6 +29,7 @@ public class ByteReader
     //call session timer
     public void reader()
     {
+        SeedSender seedSender = new SeedSender(serverRunner.server);
         server = new Server();
         connectedClients = server.getConnectedClients();
         // send seeds first

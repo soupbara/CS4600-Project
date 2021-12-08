@@ -15,7 +15,6 @@ public class SeedSender
     // server runner object to reference server object
     private ServerRunner serverRunner = new ServerRunner();
 
-    private ByteReader byteReader = new ByteReader(serverRunner.server);
     private Vector<CThread> connectedClients;
     private long [] clientSeeds;
 
@@ -27,6 +26,7 @@ public class SeedSender
     //private  CThread client;
     public void sendSeed()
     {
+        ByteReader byteReader = new ByteReader(serverRunner.server);
         long seedNumber;
         System.out.println("getting connected clients");
         connectedClients = server.getConnectedClients();
