@@ -14,6 +14,12 @@ public class SessionTimer
     long startTime = System.currentTimeMillis();
     private Server server; // server class object to access the connectedClients vector
 
+    public SessionTimer(Server server)
+    {
+        this.server = server;
+    }
+
+
     public void TimerMethod(){
         long startTime = System.currentTimeMillis();
         long elapsedTime = 0L;

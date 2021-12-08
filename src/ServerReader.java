@@ -27,7 +27,7 @@ public class ServerReader {
      * creates a byte stream over the socket connection to receive data
      * @param socket
      */
-    public void receiveData(Socket socket) {
+    public void receiveData(/*Socket socket*/) {
         try {
             InputStream input = socket.getInputStream();
             reader = new BufferedReader(new InputStreamReader(input));

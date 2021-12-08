@@ -90,7 +90,7 @@ public class ChatClient extends Application{
 
     private void refresh(){
         System.out.println("Stream refreshing...");
-        serverReader.receiveData(socket);
+        serverReader.receiveData(/*socket*/);
         serverReader.sendData(socket);
 
         messages.getChildren().add(new Label("Anon: " + serverReader.getReceivedMessage()));

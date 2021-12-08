@@ -11,15 +11,26 @@ import java.security.SecureRandom;
 
 public class ByteReader
 {
-    private SessionTimer timer;
     private Server server;
-    private CThread  client;
-    private SeedSender seedSender;
+
+    // server runner object to reference server object
+    private ServerRunner serverRunner = new ServerRunner();
+
+    private SeedSender seedSender = new SeedSender(serverRunner.server);
+    private SessionTimer timer = new SessionTimer(serverRunner.server);
+
     private static Vector<CThread> connectedClients = new Vector<CThread>();
+
+    public ByteReader(Server server)
+    {
+        this.server = server;
+    }
+
 
     //call session timer
     public void reader()
     {
+        server = new Server();
         connectedClients = server.getConnectedClients();
         // send seeds first
         seedSender.sendSeed();

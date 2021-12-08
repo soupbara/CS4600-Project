@@ -16,10 +16,12 @@ public class CThread extends Thread
     private int port;
     private PrintWriter writer;
     private Server server;
-    public CThread (Socket socket, int port)
+
+    public CThread (Socket socket, int port, Server server)
     {
         this.socket = socket;
         this.port = port;
+        this.server = server;
     }
     public void run()
     {
@@ -82,7 +84,7 @@ public class CThread extends Thread
     }
 
     //sending the users the message
-    public void sendMessage(String message)
+    public void sendMessage(String message, Socket socket)
     {
         String msg = message;
         try{

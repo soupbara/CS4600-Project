@@ -21,7 +21,12 @@ public class Server
 
     private static String address = "localhost";
     private static int port = 1234;
-    private SeedSender seedSender = new SeedSender();
+
+    // server runner object to reference server object
+    private ServerRunner serverRunner = new ServerRunner();
+
+    private SeedSender seedSender = new SeedSender(serverRunner.server);
+
     public static String getAddress()
     {
         return address;
@@ -54,12 +59,13 @@ public class Server
                 System.out.println("A new user has connected");
 
                 //creating a CThread class object for each connected client
-                CThread newClient = new CThread(socket, port);
+                CThread newClient = new CThread(socket, port, serverRunner.server);
                 connectedClients.add(newClient);
                 newClient.start();
                 clients ++;
             }
             //after all clients connect, generate seeds and send to clients
+            System.out.println("calling sendSeed now");
             seedSender.sendSeed();
         }
         catch(IOException ex)
@@ -76,7 +82,7 @@ public class Server
             {
                 if (user != excludeUser)
                 {
-                    user.sendMessage(message);
+                    user.sendMessage(message, user.socket);
                 }
             }
         }
@@ -115,12 +121,4 @@ public class Server
     }
 
 
-    public static void main(String args[])
-    {
-        //getting the seed to send to the clients
-        //seedGenerator();
-
-        Server server = new Server();
-        server.run();
-    }
 }
