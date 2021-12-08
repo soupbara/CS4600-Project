@@ -38,7 +38,9 @@ public class ServerReader {
 
         try {
             //TODO: add lines to save message into string for receivedMessage call
-            receivedMessage(reader.readLine());
+            String message = reader.readLine();
+            System.out.println(message);
+            receivedMessage(message);
             messageIsSent = false; // user has not sent a message at this time
         } catch (IOException e) {
             System.out.println("Error reading from server: " + e.getMessage());

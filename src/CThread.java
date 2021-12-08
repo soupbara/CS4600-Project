@@ -39,20 +39,23 @@ public class CThread extends Thread
             if(server.hasUsers())
                 printUsers();
 
-            String clientName = reader.readLine();
-            server.addClientName(clientName);
+//            String clientName = reader.readLine();
+//            server.addClientName(clientName);
+//
+//            //announce new user
+//            String serverMsg = "new user connected: " + clientName;
+//            server.broadcast(serverMsg, this);
 
-            //announce new user
-            String serverMsg = "new user connected: " + clientName;
-            server.broadcast(serverMsg, this);
+            getMsg(socket);
 
             String clientMsg;
 
             // at this point dont wanna send with user name
             do{
                 clientMsg = reader.readLine();
-                serverMsg = "[" + clientName + "]" + clientMsg;
-                server.broadcast(serverMsg, this);
+//                serverMsg = "[" + clientName + "]" + clientMsg;
+//                server.broadcast(serverMsg, this);
+                server.broadcast(clientMsg, this);
             }while(true);
 
             /*
@@ -90,6 +93,7 @@ public class CThread extends Thread
         try{
             OutputStream output= socket.getOutputStream();
             output.write(msg.getBytes());
+            writer.println(msg);
         }
         catch (IOException ex)
         {
