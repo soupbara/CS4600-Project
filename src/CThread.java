@@ -37,7 +37,7 @@ public class CThread extends Thread
             server  = new Server();
 
             if(server.hasUsers())
-                printUsers();
+               // printUsers();
 
 //            String clientName = reader.readLine();
 //            server.addClientName(clientName);
